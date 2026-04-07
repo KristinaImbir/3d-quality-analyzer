@@ -321,7 +321,7 @@ function displayMetrics(metrics, overallScore) {
     overallDiv.innerHTML = `
         <div class="metric-name">Общая оценка качества ${overallBadge}</div>
         <div class="metric-value">${(overallScore * 100).toFixed(1)}%</div>
-        <div class="metric-description">Обобщённая оценка качества модели</div>
+        <div class="metric-description">Взвешенная обобщённая оценка качества</div>
     `;
     resultsDiv.appendChild(overallDiv);
 

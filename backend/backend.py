@@ -705,42 +705,47 @@ def analyze_with_trimesh(file_path: str):
 
 
 def calculate_overall_score(metrics):
-    """3.4 Обобщённая метрика качества (агрегирование по категориям)"""
+    """3.4 Обобщённая метрика качества (с весами)"""
 
-    category_metrics = {
-        'geometric': ['Равномерность плотности', 'Анализ пустот и скоплений'],
-        'topological': ['Замкнутость поверхности', 'Несвязные компоненты', 'Дыры и самопересечения'],
-        'structural': ['Равномерность площадей треугольников', 'Регулярность нормалей', 'Структурная устойчивость']
+    weighted_metrics = {
+        'Равномерность плотности': {'weight': 1.0, 'category': 'geometric'},
+        'Анализ пустот и скоплений': {'weight': 1.0, 'category': 'geometric'},
+
+        'Замкнутость поверхности': {'weight': 0.5, 'category': 'topological'},
+        'Несвязные компоненты': {'weight': 2.0, 'category': 'topological'},
+        'Дыры и самопересечения': {'weight': 1.0, 'category': 'topological'},
+
+        'Равномерность площадей треугольников': {'weight': 1.5, 'category': 'structural'},
+        'Регулярность нормалей': {'weight': 1.0, 'category': 'structural'},
+        'Структурная устойчивость': {'weight': 0.5, 'category': 'structural'},
     }
 
-    category_scores = {}
+    category_scores = {'geometric': [], 'topological': [], 'structural': []}
+    category_weights = {'geometric': [], 'topological': [], 'structural': []}
 
-    for category, metric_names in category_metrics.items():
-        valid_scores = []
-        for metric_name in metric_names:
-            if metric_name in metrics:
-                metric = metrics[metric_name]
-                if isinstance(metric, dict) and 'normalized' in metric and metric['normalized'] is not None:
-                    valid_scores.append(metric['normalized'])
+    for metric_name, config in weighted_metrics.items():
+        if metric_name in metrics:
+            metric = metrics[metric_name]
+            if isinstance(metric, dict) and 'normalized' in metric and metric['normalized'] is not None:
+                category_scores[config['category']].append(metric['normalized'] * config['weight'])
+                category_weights[config['category']].append(config['weight'])
 
-        if valid_scores:
-            # Среднее по категории (3.44-3.46)
-            category_scores[category] = sum(valid_scores) / len(valid_scores)
+    # Взвешенное среднее по категориям
+    category_averages = {}
+    for category in category_scores:
+        if category_weights[category]:
+            category_averages[category] = sum(category_scores[category]) / sum(category_weights[category])
         else:
-            category_scores[category] = None
+            category_averages[category] = None
 
-    # Итоговая оценка как среднее по категориям (3.47)
-    valid_category_scores = [score for score in category_scores.values() if score is not None]
-
-    if valid_category_scores:
-        overall_score = sum(valid_category_scores) / len(valid_category_scores)
-    else:
-        overall_score = None
+    # Итоговая оценка как среднее по категориям
+    valid_scores = [score for score in category_averages.values() if score is not None]
+    overall_score = sum(valid_scores) / len(valid_scores) if valid_scores else None
 
     return {
         'overall_score': overall_score,
-        'category_scores': category_scores,
-        'method': 'Агрегирование по категориям (3.44-3.47)'
+        'category_scores': category_averages,
+        'method': 'Взвешенное агрегирование по категориям'
     }
 
 
