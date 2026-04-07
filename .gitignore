@@ -1,0 +1,83 @@
+# ============================================
+# IDE и редакторы
+# ============================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ============================================
+# Python (backend)
+# ============================================
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.venv
+venv/
+ENV/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ============================================
+# Node.js / Frontend
+# ============================================
+node_modules/
+frontend/node_modules/
+frontend/libs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+.eslintcache
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# ============================================
+# Docker
+# ============================================
+*.pid
+*.log
+
+# ============================================
+# OS files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# Логи и временные файлы
+# ============================================
+*.log
+*.tmp
+*.temp
+logs/
+temp/
+
+# ============================================
+# Secrets
+# ============================================
+*.pem
+*.key
+*.crt
+.secrets

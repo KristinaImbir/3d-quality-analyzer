@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анализ качества 3D-моделей</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<h1>Анализ качества 3D-моделей</h1>
+
+<div class="container">
+    <div class="upload-section">
+        <input type="file" id="fileInput" accept=".obj,.ply,.stl">
+        <button id="analyzeBtn">Выполнить анализ</button>
+    </div>
+
+    <div class="content">
+        <div id="viewer"></div>
+
+        <div id="results" class="results-panel">
+            <h3>Результаты анализа</h3>
+            <div id="metricsList" class="metrics-list">
+                <p>Загрузите модель и нажмите "Выполнить анализ"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script src="src/script.js"></script>
+</body>
+</html>
